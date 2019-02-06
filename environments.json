@@ -1,0 +1,15 @@
+[
+    {
+        "EnvironmentName": {
+            "Headers": [
+                { "CustomHeaderKey": "Value" }
+            ],
+            "Endpoints": [
+                {
+                    "CoreMedia": "Url/{IpAddress}/Get",
+                    "Placeholders": [ "{IpAddress}" ]
+                }
+            ]
+        }
+    }
+]
