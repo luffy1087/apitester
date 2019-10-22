@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build:transplile": "babel --presets es2015 -d dist/ src",
+    "build:transplile": "babel --presets es2015 -d dist/ assets",
     "start": "npm run build:transplile && electron ."
   },
   "repository": {
