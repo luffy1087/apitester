@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+</head>
+<body>
+    <form>
+        <fieldset class="environment">
+            <label for="environment">Environment:</label>
+            <select id="environment">
+            </select>
+            <span title="Click to view environment">?</span>
+        </fieldset>
+        <fieldset class="steps">
+            <label for="steps">Steps composer:</label>
+            <select id="steps" multiple>
+            </select>
+            <div class="steps-buttons">
+                <button type="button" id="addStep" class="addStep">Add</button>
+                <button type="button" id="up" class="up">Up</button>
+                <button type="button" id="down" class="down">Down</button>
+                <button type="button" id="removeStep" class="removeStep">Remove</button>
+            </div>
+        </fieldset>
+        <fieldset class="execute">
+            <textarea disabled id="logs"></textarea>
+            <br />
+            <button type="button" class="execute">Execute</button>
+        </fieldset>
+    </form>
+    <script src="dist/app.js"></script>
+</body>
+</html>

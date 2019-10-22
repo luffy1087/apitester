@@ -1,0 +1,27 @@
+{
+  "name": "apitester",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build:transplile": "babel --presets es2015 -d dist/ src",
+    "start": "npm run build:transplile && electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luffy1087/apitester.git"
+  },
+  "author": "Francesco Ferdico",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/luffy1087/apitester/issues"
+  },
+  "homepage": "https://github.com/luffy1087/apitester#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "electron": "^6.0.12",
+    "webpack": "^4.41.2"
+  }
+}
