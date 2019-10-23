@@ -1,1 +1,1 @@
-import formControls from './dist/formControls.js';
+import formControls from './dist/formControls';
