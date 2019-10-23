@@ -2,7 +2,7 @@
   "name": "apitester",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
     "build:transplile": "babel --presets es2015 -d dist/ assets",
     "start": "npm run build:transplile && electron .",
@@ -24,6 +24,8 @@
     "babel-loader": "^8.0.6",
     "babel-preset-es2015": "^6.24.1",
     "electron": "^6.0.12",
+    "electron-compile": "^6.4.4",
+    "electron-prebuilt-compile": "^4.0.0",
     "webpack": "^4.41.2"
   }
 }
