@@ -1,1 +1,1 @@
-import formControls from './dist/formControls';
+import formControls from './formControls';

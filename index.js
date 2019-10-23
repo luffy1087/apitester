@@ -18,6 +18,6 @@ import { app, BrowserWindow } from 'electron';
     };
 
     app.on('ready', () => {
-        createWindow(1, 'index.html');
+        createWindow(1, './assets/index.html');
     });
 }
