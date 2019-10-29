@@ -1,12 +1,10 @@
-import fs from 'fs';
-
 class FormControls {
-    constructor() {
+    constructor(api) {
+        this.api = api;
         document.getElementById('up').addEventListener('click', this.swapSteps.bind(this, -1));
         document.getElementById('down').addEventListener('click', this.swapSteps.bind(this, 1));
         document.getElementById('removeStep').addEventListener('click', this.removeStep.bind(this));
-        this.fill('env', 'environment');
-        this.fill('steps');
+        this.fillSelects()
     }
 
     tryAddOption(id, file) {
@@ -62,10 +60,13 @@ class FormControls {
         steps.options.remove(selectedIndex);
     }
 
-    fill(source, id) {
-        id = id || source;
-        fs.readdirSync(source).forEach(this.tryAddOption.bind(this, id));
+    async fillSelects() {
+        const steps = await this.api.getSteps();
+        const envs = await this.api.getEnvironments();
+
+        steps.forEach(this.tryAddOption.bind(this, 'steps'));
+        envs.forEach(this.tryAddOption.bind(this, 'environment'));
     }
 };
 
-export default new FormControls();
+export default FormControls;
