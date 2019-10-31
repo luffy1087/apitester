@@ -58,6 +58,7 @@ class FormControls {
         if (steps.selectedIndex === -1) { return; }
 
         steps.options.remove(selectedIndex);
+        steps.selectedIndex  = selectedIndex - 1 > -1 ? selectedIndex - 1 : selectedIndex;
     }
 
     async fillSelects() {

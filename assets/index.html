@@ -3,7 +3,61 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+    <title>API TESTER</title>
+    <style type="text/css">
+        body {
+            text-align: center;
+        }
+
+        form {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+
+        fieldset {
+            border: 0
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button:not(.showDetails) {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button.showDetails {
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            border-radius: 50%;
+            background-color: #000000;
+            width: 20px;
+            color: #f2f2f2;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .label {
+            text-align: left;
+        }
+    </style>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
 </head>
@@ -11,25 +65,34 @@
     <h1>API TESTER</h1>
     <form>
         <fieldset class="environment">
-            <label for="environment">Environment:</label>
-            <select id="environment">
-            </select>
-            <button type="button" title="Click to view environment">?</button>
+            <div class="label">
+                <label for="environment">Environment</label>
+                <button type="button" class="showDetails" title="Click to view environment">?</button>
+            </div>
+            <div class="controls">
+                <select id="environment"></select>
+            </div>
         </fieldset>
         <fieldset class="steps">
-            <label for="steps">Steps composer:</label>
-            <select id="steps" multiple>
-            </select>
-            <div class="steps-buttons">
+            <div class="label">
+                <label for="steps">Steps composer</label>
+            </div>
+            <div class="controls">
+                <select id="steps" multiple></select>
                 <button type="button" id="addStep" class="addStep">Add</button>
                 <button type="button" id="up" class="up">Up</button>
                 <button type="button" id="down" class="down">Down</button>
                 <button type="button" id="removeStep" class="removeStep">Remove</button>
+                <button type="button" id="saveScenario" class="saveScenario">Save scenario</button>
             </div>
         </fieldset>
         <fieldset class="execute">
-            <textarea disabled id="logs"></textarea>
-            <br />
+            <div class="label">
+                <label for="logs">Log</label>
+            </div>
+            <div class="controls">
+                <textarea disabled id="logs"></textarea>
+            </div>
             <button type="button" class="execute">Execute</button>
         </fieldset>
     </form>
