@@ -9,6 +9,10 @@ class Api {
         return ajax.get(this.getUrl('getEnvironments'));
     }
 
+    getEnvironmentDetails(environment) {
+        return ajax.get(this.getUrl('getEnvironmentDetails'), { environment });
+    }
+
     getUrl(uri) {
         return `http://localhost:7777/${uri}`;
     }
