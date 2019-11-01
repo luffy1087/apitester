@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/luffy1087/apitester#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "handlebars": "^4.5.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
