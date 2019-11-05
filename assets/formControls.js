@@ -1,35 +1,45 @@
 class FormControls {
     constructor(api) {
         this.api = api;
-        document.getElementById('up').addEventListener('click', this.swapSteps.bind(this, -1));
-        document.getElementById('down').addEventListener('click', this.swapSteps.bind(this, 1));
-        document.getElementById('removeStep').addEventListener('click', this.removeStep.bind(this));
+        this.attachEvent('up', 'click', this.swapSteps.bind(this, -1));
+        this.attachEvent('down', 'click', this.swapSteps.bind(this, 1));
+        this.attachEvent('removeStep', 'click', this.removeStep.bind(this));
         this.fillSelects()
     }
 
-    tryAddOption(id, file) {
-        const reg = /\.(json|js)$/;
-    
-        if (!reg.test(file)) { return; }
-    
-        const value = file.replace(reg, '');
-    
-        this.addOption(id, value);
+    attachEvent(id, evtName, handler) {
+        document.getElementById(id).addEventListener(evtName, handler);
     }
     
-    addOption(id, value) {
-        document
-            .getElementById(id)
-            .options
-            .add(this.createOption(value));
+    addOption(el, value, text) {
+        el.appendChild(this.createSelectChild('option', value, text));
     }
 
-    createOption(value) {
-        const option = document.createElement('option');
-        option.value = value;
-        option.text = value;
+    addOptionGroup(el, tree) {
+        if (typeof tree.files !== 'undefined') {
+            tree.files.forEach((file) => this.addOption(el, `${tree.path}/${file}`, file));
+        }
 
-        return option;
+        if (typeof tree.dirs !== 'undefined') {
+            for (let dir of tree.dirs) {
+                let optGroup = this.createSelectChild('optgroup', dir.dirName);
+                el.appendChild(optGroup);
+                this.addOptionGroup(optGroup, dir);
+            }
+        }
+    }
+
+    createSelectChild(tag = 'option', value, text = null) {
+        const el = document.createElement(tag);
+        
+        if (tag === 'option') {
+            el.value = value;
+            el.text = text || value;
+        } else {
+            el.label = value;
+        }
+
+        return el;
     }
     
     swapSteps(nextPosition) {
@@ -47,7 +57,7 @@ class FormControls {
     
         options[selectedIndex] = nextStep;
         options[nextIndex] = currentStep;
-        options.forEach(opt => { this.addOption('steps', opt.value); });
+        options.forEach(opt => { this.addOption(steps, opt.value); });
         steps.selectedIndex = nextIndex;
     }
 
@@ -62,11 +72,11 @@ class FormControls {
     }
 
     async fillSelects() {
-        const steps = await this.api.getSteps();
         const envs = await this.api.getEnvironments();
+        const steps = await this.api.getSteps();
 
-        steps.forEach(this.tryAddOption.bind(this, 'steps'));
-        envs.forEach(this.tryAddOption.bind(this, 'environment'));
+        this.addOptionGroup(document.getElementById('environment'), envs);
+        steps.forEach((step) => this.addOption(document.getElementById('steps'), step));
     }
 };
 

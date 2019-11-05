@@ -29,6 +29,7 @@
     "electron": "^6.0.12",
     "electron-compile": "^6.4.4",
     "electron-prebuilt-compile": "^4.0.0",
+    "esm": "^3.2.25",
     "webpack": "^4.41.2"
   }
 }
