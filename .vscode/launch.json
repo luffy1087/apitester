@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Avvia programma",
-            "program": "${workspaceFolder}/lib/utils.js",
+            "program": "${workspaceFolder}/app.js",
             "runtimeArgs": ["-r", "esm"]
         }
     ]
