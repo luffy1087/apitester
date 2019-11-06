@@ -1,12 +1,11 @@
 {
     "Name": "INT01",
     "Headers": [
-        { "CustomHeaderKey": "Value" }
+        { "Key": "CustomHeaderKey", "Value": "My/Url" },
+        { "Key": "ContentType", "Value": "application/json" }
     ],
     "Endpoints": [
-        {
-            "CoreMedia": "Url/{IpAddress}/Get",
-            "Placeholders": [ "{IpAddress}" ]
-        }
+        { "Key": "CoreMedia", "Value": "Url/{IpAddress}/Get" },
+        { "Key": "Placeholders", "Value": "{IpAddress}" }
     ]
  }
