@@ -5,7 +5,10 @@
         { "Key": "ContentType", "Value": "application/json" }
     ],
     "Endpoints": [
-        { "Key": "CoreMedia", "Value": "Url/{IpAddress}/Get" },
-        { "Key": "Placeholders", "Value": "{IpAddress}" }
-    ]
+        { "Key": "WebApiSite", "Value": "Url/{IpAddress}/{IdSite}/Get" }
+    ],
+    "Data": {
+        "IdSite": "7777",
+        "Placeholders": [ "{IpAddress}", "{IdSite}" ]
+    }
  }
