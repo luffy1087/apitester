@@ -17,7 +17,7 @@ class FormControls {
 
     addOptionGroup(el, tree) {
         if (typeof tree.files !== 'undefined') {
-            tree.files.forEach((file) => this.addOption(el, `${tree.path}/${file}`, file));
+            tree.files.forEach((file) => this.addOption(el, file.queryPath, file.name));
         }
 
         if (typeof tree.dirs !== 'undefined') {
@@ -57,7 +57,7 @@ class FormControls {
     
         options[selectedIndex] = nextStep;
         options[nextIndex] = currentStep;
-        options.forEach(opt => { this.addOption(steps, opt.value); });
+        options.forEach(opt => this.addOption(steps, opt.value, opt.text));
         steps.selectedIndex = nextIndex;
     }
 
