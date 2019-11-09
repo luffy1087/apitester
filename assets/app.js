@@ -1,3 +1,4 @@
+import './app.css';
 import api from './api'
 import FormControls from './formControls';
 

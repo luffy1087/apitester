@@ -1,23 +1,29 @@
-var path = require('path');
-var nodeExternals = require('webpack-node-externals');
+const htmlPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: './assets/app.js',
     output: {
-      filename: 'app.bundle.js',
-      path: path.resolve(__dirname, 'dist')
+      filename: 'app.bundle.js'
     },
-    externals: nodeExternals(),
     module: {
         rules: [
             {
-                test: /\.js$/,
-                exclude: /node_modules/,
+                test: /\.html$/,
                 use: {
-                  loader: 'babel-loader'
+                   loader: 'html-loader',
+                   options: { minimize: true }
                 }
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
             }
         ]
     },
-    target: 'node'
+    plugins: [
+        new htmlPlugin({
+            template: './assets/index.html',
+            filename: 'index.html'
+        })
+    ]
 };
