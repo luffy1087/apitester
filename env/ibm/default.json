@@ -2,10 +2,12 @@
     "Name": "INT01",
     "Headers": [
         { "Key": "CustomHeaderKey", "Value": "My/Url" },
-        { "Key": "ContentType", "Value": "application/json" }
+        { "Key": "ContentType", "Value": "application/json" },
+        { "Key": "Cookie", "Value": "test=1;" }
     ],
     "Endpoints": [
-        { "Key": "WebApiSite", "Value": "Url/{IpAddress}/{IdSite}/Get" }
+        { "Key": "GetCart", "Value": "Url/{SessionId}/{IdCart}/Get" },
+        { "Key": "SetColor", "Value": "Url/{ItemId}/Set/{ColorId}" }
     ],
     "Data": {
         "IdSite": "7777",
