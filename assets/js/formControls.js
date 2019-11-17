@@ -1,9 +1,16 @@
+import ajax from './ajax';
+import api from './api';
+import popup from './popup';
+
 class FormControls {
-    constructor(api) {
+    constructor(ajax, api, popup) {
+        this.ajax = ajax;
         this.api = api;
+        this.popup = new popup();
         this.attachEvent('up', 'click', this.swapSteps.bind(this, -1));
         this.attachEvent('down', 'click', this.swapSteps.bind(this, 1));
         this.attachEvent('removeStep', 'click', this.removeStep.bind(this));
+        this.attachEvent('showDetails', 'click', this.showEnvironmentDetails.bind(this));
         this.fillSelects()
     }
 
@@ -78,6 +85,14 @@ class FormControls {
         this.addOptionGroup(document.getElementById('environment'), envs);
         steps.forEach((step) => this.addOption(document.getElementById('steps'), step));
     }
+
+    async showEnvironmentDetails() {
+        debugger;
+        const environment = document.getElementById('environment').value;
+        const htmlResponse = await this.ajax.get('getEnvironmentDetails', { params: { environment }, html: true });
+
+        this.popup.open({ content: htmlResponse });
+    }
 };
 
-export default FormControls;
+export default FormControls.bind(this, ajax, api, popup);
