@@ -17,6 +17,10 @@
     width: 100%;
 }
 
+.popup-layer.closed, .popup.closed {
+    display: none;
+}
+
 .popup-content {
   display: table-cell;
   vertical-align: middle;

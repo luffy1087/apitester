@@ -15,6 +15,8 @@ class Popup {
         this.tryCreateLayer(body);
         body.appendChild(currentPopup);
         this.tryAddCloseButtonEvent(currentPopup);
+
+        currentPopup.addClass('open').removeClass('closed');
     }
 
     createPopUp(data) {
@@ -33,20 +35,18 @@ class Popup {
 
         currentPopup
             .setAttributes({ class: 'popup', style: `z-index:${numberOfInstance}`, 'data-instance': numberOfInstance })
-            .addClass('open')
             .addClass(`instance_${numberOfInstance}`)
             .empty()
-            .appendChild(popupContent)
-            .removeClass('closed');
+            .appendChild(popupContent);
 
         return currentPopup;
     }
 
     tryCreateLayer(body) {
-        let domLayer = document.querySelector('.popup-domLayer');
+        let domLayer = document.querySelector('.popup-layer');
         
         if (domLayer) {
-            return void new this.dom(layer).addClass('open');
+            return void new this.dom(domLayer).addClass('open').removeClass('closed');
         }
         
         const layer = this.layer = new this.dom('div').addClass('popup-layer').addClass('open');
