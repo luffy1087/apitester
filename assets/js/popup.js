@@ -9,36 +9,78 @@ class Popup {
     }
 
     open(data) {
-        const popups = document.querySelectorAll('.popup');
-        const currentPopup = this.popup || new this.dom(data.tagName || 'div');
-        const numberOfInstance = this.popup ? popups.length : popups.length-1;
-
-        currentPopup
-            .setAttributes({ class: 'popup', style: `z-index:${numberOfInstance}` })
-            .addClass(`instance_${numberOfInstance}`)
-            .empty()
-            .setContent(data.content)
-            .removeClass('close');
-
-        if (typeof data.shouldRenderCloseButton === 'undefined' || data.shouldRenderCloseButton) {
-            currentPopup.appendChild(this.createCloseButton());
-        }
-
-        document.body.appendChild(currentPopup.el);
-
-        this.popup = currentPopup;
+        const body = new this.dom(document.body);
+        const currentPopup = this.createPopUp(data);
+        
+        this.tryCreateLayer(body);
+        body.appendChild(currentPopup);
+        this.tryAddCloseButtonEvent(currentPopup);
     }
 
-    createCloseButton() {
+    createPopUp(data) {
+        const currentPopup = this.popup = this.popup || new this.dom(data.tagName || 'div');
+        const numberOfInstance = this.popup ? this.popup.getAttribute('data-instance') : document.querySelectorAll('.popup').length+1;
+        const popupContent = new this.dom('div');
+        const shouldRenderCloseButton = typeof data.shouldRenderCloseButton === 'undefined' || data.shouldRenderCloseButton;
+
+        if (shouldRenderCloseButton) {
+            popupContent.appendChild(this.createCloseButton(data));
+        }
+
+        popupContent
+            .addClass('popup-content')
+            .setContent(data.content, true);
+
+        currentPopup
+            .setAttributes({ class: 'popup', style: `z-index:${numberOfInstance}`, 'data-instance': numberOfInstance })
+            .addClass('open')
+            .addClass(`instance_${numberOfInstance}`)
+            .empty()
+            .appendChild(popupContent)
+            .removeClass('closed');
+
+        return currentPopup;
+    }
+
+    tryCreateLayer(body) {
+        let domLayer = document.querySelector('.popup-domLayer');
+        
+        if (domLayer) {
+            return void new this.dom(layer).addClass('open');
+        }
+        
+        const layer = this.layer = new this.dom('div').addClass('popup-layer').addClass('open');
+        
+        body.appendChild(layer);
+    }
+
+    createCloseButton(data) {
         const btn = new this.dom('div');
         
-        btn.addClass('closeButton').addEventListener('click', () => this.close);
+        btn.addClass('closeButton');
+
+        if (typeof data.closeButtonCnt === 'string') {
+            btn.setContent(data.closeButtonCnt);
+        }
 
         return btn;
     }
 
+    tryAddCloseButtonEvent(popup) {
+        const domCloseButton = popup.querySelector('.closeButton');
+
+        if (!domCloseButton.hasValue) { return; }
+
+        domCloseButton.addEventListener('click', this.close.bind(this));
+    }
+
     close() {
-        this.popup.addClass('closed');
+       this.layer
+            .removeClass('open')
+            .addClass('closed');
+        this.popup
+            .removeClass('open')
+            .addClass('closed');
     }
 }
 

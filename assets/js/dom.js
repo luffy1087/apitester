@@ -1,10 +1,13 @@
 class DOM {
     constructor(tagName) {
-        if (typeof tagName !== 'string') {
-            new Error("tagName must be defined");
+        let el;
+        if (typeof tagName === 'string') {
+            el = document.createElement(tagName);
+        } else if (typeof tagName === 'object') {
+            el = tagName instanceof DOM ? tagName.el : tagName;
         }
 
-        this.el = document.createElement(tagName);
+        this.el = el;
 
         return this;
     }
@@ -39,6 +42,10 @@ class DOM {
         return this;
     }
 
+    getAttribute(attrName) {
+        return this.el.getAttribute(attrName);
+    }
+
     addClass(className) {
         this.el.classList.add(className);
 
@@ -46,7 +53,7 @@ class DOM {
     }
 
     removeClass(className) {
-        this.el.classList.add(className);
+        this.el.classList.remove(className);
 
         return this;
     }
@@ -57,8 +64,8 @@ class DOM {
         return this;
     }
 
-    setContent(content) {
-        this.el.innerHTML = content;
+    setContent(content, shouldAppend = false) {
+        this.el.innerHTML = shouldAppend ? this.el.innerHTML.concat(content) : content;
 
         return this;
     }
@@ -83,6 +90,14 @@ class DOM {
         this.el.addEventListener(evtName, callback);
 
         return this;
+    }
+
+    querySelector(selector) {
+        return new DOM(this.el.querySelector(selector));
+    }
+
+    get hasValue() {
+        return !!this._el;
     }
 
     get el() {

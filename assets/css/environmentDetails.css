@@ -1,9 +1,11 @@
 table.details {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 90%;
   padding: 20px;
-  margin: 0 auto;
+  margin:0 auto;
+  width: 90%;
+}
+
+table.details tr {
+  background-color: #c5c5c5;
 }
 
 table.details td, table.details th {
@@ -11,7 +13,7 @@ table.details td, table.details th {
   padding: 8px;
 }
 
-table.details tr.hoverable:nth-child(odd){
+table.details tr.hoverable:nth-child(odd) {
     background-color: #cacaca;
 }
 

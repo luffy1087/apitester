@@ -87,11 +87,10 @@ class FormControls {
     }
 
     async showEnvironmentDetails() {
-        debugger;
         const environment = document.getElementById('environment').value;
         const htmlResponse = await this.ajax.get('getEnvironmentDetails', { params: { environment }, html: true });
 
-        this.popup.open({ content: htmlResponse });
+        this.popup.open({ content: htmlResponse, closeButtonCnt: 'X' });
     }
 };
 
