@@ -1,4 +1,10 @@
-import './lib/http';
-import { createWindow, windows } from './lib/windows';
+import server from './lib/http';
+import { createWindow, app } from './lib/windows';
 
-createWindow('index', './dist/index.html');
+const startProgram = () => {
+    const window = createWindow('index', './dist/index.html');
+    
+    window.on('closed', () => server.close);
+}
+
+app.on('ready', startProgram);
