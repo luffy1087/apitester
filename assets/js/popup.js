@@ -1,15 +1,14 @@
-import dom from './dom';
+import { $ } from './dom';
 
 class Popup {
-    constructor(dom, data) {
-        this.dom = dom;
+    constructor(data) {
         if (typeof data === 'object') {
             this.open(data);
         }
     }
 
     open(data) {
-        const body = new this.dom(document.body);
+        const body = $(document.body);
         const currentPopup = this.createPopUp(data);
         
         this.tryCreateLayer(body);
@@ -20,9 +19,9 @@ class Popup {
     }
 
     createPopUp(data) {
-        const currentPopup = this.popup = this.popup || new this.dom(data.tagName || 'div');
+        const currentPopup = this.popup = this.popup || $(data.tagName || 'div');
         const numberOfInstance = this.popup ? this.popup.getAttribute('data-instance') : document.querySelectorAll('.popup').length+1;
-        const popupContent = new this.dom('div');
+        const popupContent = $('div');
         const shouldRenderCloseButton = typeof data.shouldRenderCloseButton === 'undefined' || data.shouldRenderCloseButton;
 
         if (shouldRenderCloseButton) {
@@ -46,16 +45,16 @@ class Popup {
         let domLayer = document.querySelector('.popup-layer');
         
         if (domLayer) {
-            return void new this.dom(domLayer).addClass('open').removeClass('closed');
+            return void $(domLayer).addClass('open').removeClass('closed');
         }
         
-        const layer = this.layer = new this.dom('div').addClass('popup-layer').addClass('open');
+        const layer = this.layer = $('div').addClass('popup-layer').addClass('open');
         
         body.appendChild(layer);
     }
 
     createCloseButton(data) {
-        const btn = new this.dom('div');
+        const btn = $('div');
         
         btn.addClass('closeButton');
 
@@ -84,4 +83,4 @@ class Popup {
     }
 }
 
-export default Popup.bind(this, dom);
+export default Popup;

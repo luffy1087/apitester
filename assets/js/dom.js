@@ -1,15 +1,42 @@
 class DOM {
-    constructor(tagName) {
-        let el;
-        if (typeof tagName === 'string') {
-            el = document.createElement(tagName);
-        } else if (typeof tagName === 'object') {
-            el = tagName instanceof DOM ? tagName.el : tagName;
+    constructor(data) {
+        let els;
+        if (DOM.isTagName(data)) {
+            els = [ document.createElement(data) ];
+        } else if (DOM.isHTML(data)) {
+            els = new DOM('div').setContent(data).getChildren();
+        } else if (DOM.isFromDOM(data)) {
+            els = data.els;
+        } else if (data.constructor === Array) {
+            els = data;
+        } else if (data instanceof HTMLElement) {
+            els = [ data ];
+        } else {
+            els = [ ...document.querySelectorAll(data) ];
         }
 
-        this.el = el;
+        this.els = els;
 
         return this;
+    }
+
+    static $(data) {
+        return new DOM(data);
+    }
+
+    static isHTML(data) {
+        return typeof data === 'string' && /<[^>]+>/i.test(data);
+    }
+
+    static isTagName(data) {
+        return typeof data && /^[a-z]+$/.test(data);
+    }
+
+    static isFromDOM(data) {
+        return  data instanceof Object &&
+                typeof data.els !== 'undefined' &&
+                data.els.constructor === Array &&
+                data.els.every(el => el instanceof HTMLElement);
     }
     
     setAttributes(attrs = {}) {
@@ -20,7 +47,7 @@ class DOM {
             } else if (key === 'style') {
                 this.addStyle(attrs[key]);
             } else {
-                this.el.setAttribute(key, attrs[key]);
+                this.setAttribute(key, attrs[key]);
             }
         }
 
@@ -36,78 +63,93 @@ class DOM {
                 return `${value}${currentValue.substring(0,1).toUpperCase()}${currentValue.substring(1)}`;
             }, pieces[0].toLowerCase());
 
-            this.el.style[prop] = ruleValue.trim();
+            this.els.forEach(el => { el.style[prop] = ruleValue.trim(); });
         }
 
         return this;
     }
 
     getAttribute(attrName) {
-        return this.el.getAttribute(attrName);
+        return this.els[0].getAttribute(attrName);
+    }
+
+    setAttribute(attrName, attrValue) {
+        this.els.forEach(el => el.setAttribute(attrName, attrValue));
+
+        return this;
     }
 
     addClass(className) {
-        this.el.classList.add(className);
+        this.els.forEach(el => el.classList.add(className));
 
         return this;
     }
 
     removeClass(className) {
-        this.el.classList.remove(className);
+        this.els.forEach(el => el.classList.remove(className));
 
         return this;
     }
 
     toggleClass(className) {
-        this.el.classList.toggle(className);
+        this.els.forEach(el => el.classList.toggle(className));
         
         return this;
     }
 
     setContent(content, shouldAppend = false) {
-        this.el.innerHTML = shouldAppend ? this.el.innerHTML.concat(content) : content;
+        this.els.forEach(el => el.innerHTML = shouldAppend ? el.innerHTML.concat(content) : content);
 
         return this;
     }
 
-    appendChild(el) {
-        el = el instanceof DOM ? el.el : el;
-        
-        this.el.appendChild(el);
+    appendChild(elToAppend) {
+        const elsToAppend = [ ...DOM.isFromDOM(elToAppend) ? elToAppend.els : elToAppend ];
+        this.els.forEach(el => elsToAppend.forEach(eta => el.appendChild(eta)));
 
         return this;
     }
 
     empty() {
-        while (this.el.children.length > 0) {
-            this.el.children[0].remove();
-        }
+        this.els.forEach(el => {
+            while (el.children.length > 0) {
+               el.firstChild.remove();
+            }
+        });
 
         return this;
     }
 
     addEventListener(evtName, callback) {
-        this.el.addEventListener(evtName, callback);
+        this.els.forEach(el => el.addEventListener(evtName, callback));
 
         return this;
     }
 
     querySelector(selector) {
-        return new DOM(this.el.querySelector(selector));
+        const context = this.els[0] || document;
+        
+        return $(context.querySelector(selector));
+    }
+
+    getChildren() {
+        return [ ...this.el.children ];
     }
 
     get hasValue() {
-        return !!this._el;
+        return !!this._els;
     }
 
-    get el() {
-        return this._el;
+    get els() {
+        return this._els;
     }
 
-    set el(el) {
-        this._el = el;
+    set els(els) {
+        this._els = els;
     }
 
 }
 
-export default DOM;
+const $ = DOM.$;
+
+export { DOM, $ };
