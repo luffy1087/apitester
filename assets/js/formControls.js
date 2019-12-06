@@ -7,6 +7,7 @@ class FormControls {
         this.ajax = ajax;
         this.api = api;
         this.popup = new popup();
+        this.attachEvent('add', 'click', this.addStepOrScenario.bind(this));
         this.attachEvent('up', 'click', this.swapSteps.bind(this, -1));
         this.attachEvent('down', 'click', this.swapSteps.bind(this, 1));
         this.attachEvent('removeStep', 'click', this.removeStep.bind(this));
@@ -76,6 +77,12 @@ class FormControls {
 
         steps.options.remove(selectedIndex);
         steps.selectedIndex  = selectedIndex - 1 > -1 ? selectedIndex - 1 : selectedIndex;
+    }
+
+    async addStepOrScenario() {
+        const files = await this.api.addStepOrScenario();
+
+        alert(JSON.stringify(files));
     }
 
     async fillSelects() {

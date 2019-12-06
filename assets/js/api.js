@@ -8,6 +8,10 @@ class Api {
     getEnvironments() {
         return ajax.get('getEnvironments');
     }
+
+    addStepOrScenario() {
+        return ajax.get('addStepOrScenario');
+    }
 }
 
 export default new Api();
