@@ -1,22 +1,20 @@
 import ajax from './ajax';
 import api from './api';
 import popup from './popup';
+import { $ } from './dom';
 
 class FormControls {
+    
     constructor(ajax, api, popup) {
         this.ajax = ajax;
         this.api = api;
         this.popup = new popup();
-        this.attachEvent('add', 'click', this.addStepOrScenario.bind(this));
-        this.attachEvent('up', 'click', this.swapSteps.bind(this, -1));
-        this.attachEvent('down', 'click', this.swapSteps.bind(this, 1));
-        this.attachEvent('removeStep', 'click', this.removeStep.bind(this));
-        this.attachEvent('showDetails', 'click', this.showEnvironmentDetails.bind(this));
+        $('#add').addEventListener('click', this.addStepOrScenario.bind(this));
+        $('#up').addEventListener('click', this.swapSteps.bind(this, -1));
+        $('#down').addEventListener('click', this.swapSteps.bind(this, 1));
+        $('#removeStep').addEventListener('click', this.removeStep.bind(this));
+        $('#showDetails').addEventListener('click', this.showEnvironmentDetails.bind(this));
         this.fillSelects()
-    }
-
-    attachEvent(id, evtName, handler) {
-        document.getElementById(id).addEventListener(evtName, handler);
     }
     
     addOption(el, value, text) {
@@ -38,39 +36,40 @@ class FormControls {
     }
 
     createSelectChild(tag = 'option', value, text = null) {
-        const el = document.createElement(tag);
+        const el = $(tag);
+        const originalEl = el.get(0);
         
         if (tag === 'option') {
-            el.value = value;
-            el.text = text || value;
+            originalEl.value = value;
+            originalEl.text = text || value;
         } else {
-            el.label = value;
+            originalEl.label = value;
         }
 
         return el;
     }
     
     swapSteps(nextPosition) {
-        const steps = document.getElementById('steps')
-        const selectedIndex = steps.selectedIndex;
+        const steps = $('#steps');
+        const originalEl = $('#steps').get(0);
+        const selectedIndex = originalEl.selectedIndex;
         const nextIndex = selectedIndex+nextPosition;
-        const options = [...steps.options];
+        const options = [ ...originalEl.options ];
         
         if (selectedIndex === -1 || typeof options[nextIndex] === 'undefined') { return; }
     
         const currentStep = options[selectedIndex];
         const nextStep = options[nextIndex];
-    
-        while (steps.options.length > 0) { steps.options.remove(0); }
-    
+
+        steps.empty();
         options[selectedIndex] = nextStep;
         options[nextIndex] = currentStep;
         options.forEach(opt => this.addOption(steps, opt.value, opt.text));
-        steps.selectedIndex = nextIndex;
+        originalEl.selectedIndex = nextIndex;
     }
 
     removeStep() {
-        const steps = document.getElementById('steps');
+        const steps = $('#steps').get(0);
         const selectedIndex = steps.selectedIndex;
 
         if (steps.selectedIndex === -1) { return; }
@@ -89,12 +88,12 @@ class FormControls {
         const envs = await this.api.getEnvironments();
         const steps = await this.api.getSteps();
 
-        this.addOptionGroup(document.getElementById('environment'), envs);
-        steps.forEach((step) => this.addOption(document.getElementById('steps'), step));
+        this.addOptionGroup($('#environment'), envs);
+        steps.forEach((step) => this.addOption($('#steps'), step));
     }
 
     async showEnvironmentDetails() {
-        const environment = document.getElementById('environment').value;
+        const environment = $('#environment').get(0).value;
         const htmlResponse = await this.ajax.get('getEnvironmentDetails', { params: { environment }, html: true });
 
         this.popup.open({ content: htmlResponse, closeButtonCnt: 'X' });

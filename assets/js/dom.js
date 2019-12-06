@@ -136,6 +136,10 @@ class DOM {
         return [ ...this.el.children ];
     }
 
+    get(index) {
+        return this.els[index];
+    }
+
     get hasValue() {
         return !!this._els;
     }
