@@ -35,37 +35,38 @@ class FormControls {
         }
     }
 
-    createSelectChild(tag = 'option', value, text = null) {
-        const el = $(tag);
-        const originalEl = el.get(0);
+    createSelectChild(tagName = 'option', value, text = null) {
+        const $el = $(tagName);
+        const el = $el.get(0);
         
-        if (tag === 'option') {
-            originalEl.value = value;
-            originalEl.text = text || value;
+        if (tagName === 'option') {
+            el.value = value;
+            el.text = text || value;
         } else {
-            originalEl.label = value;
+            el.label = value;
         }
 
-        return el;
+        return $el;
     }
     
     swapSteps(nextPosition) {
-        const steps = $('#steps');
-        const originalEl = $('#steps').get(0);
-        const selectedIndex = originalEl.selectedIndex;
+        const $steps = $('#steps');
+        const steps = $steps.get(0);
+        const selectedIndex = steps.selectedIndex;
         const nextIndex = selectedIndex+nextPosition;
-        const options = [ ...originalEl.options ];
+        const options = [ ...steps.options ];
         
+        steps.focus();
         if (selectedIndex === -1 || typeof options[nextIndex] === 'undefined') { return; }
     
         const currentStep = options[selectedIndex];
         const nextStep = options[nextIndex];
 
-        steps.empty();
+        $steps.empty();
         options[selectedIndex] = nextStep;
         options[nextIndex] = currentStep;
-        options.forEach(opt => this.addOption(steps, opt.value, opt.text));
-        originalEl.selectedIndex = nextIndex;
+        options.forEach(opt => this.addOption($steps, opt.value, opt.text));
+        steps.selectedIndex = nextIndex;
     }
 
     removeStep() {
