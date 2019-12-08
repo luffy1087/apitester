@@ -12,7 +12,7 @@ class FormControls {
         $('#add').addEventListener('click', this.addStepOrScenario.bind(this));
         $('#up').addEventListener('click', this.swapSteps.bind(this, -1));
         $('#down').addEventListener('click', this.swapSteps.bind(this, 1));
-        $('#removeStep').addEventListener('click', this.removeStep.bind(this));
+        $('#remove').addEventListener('click', this.removeStep.bind(this));
         $('#showDetails').addEventListener('click', this.showEnvironmentDetails.bind(this));
         this.fillSelects()
     }
@@ -77,12 +77,22 @@ class FormControls {
 
         steps.options.remove(selectedIndex);
         steps.selectedIndex  = selectedIndex - 1 > -1 ? selectedIndex - 1 : selectedIndex;
+        steps.focus();
     }
 
     async addStepOrScenario() {
-        const files = await this.api.addStepOrScenario();
+        const stepsOrScenario = await this.api.addStepOrScenario();
+        
+        if (!stepsOrScenario || !stepsOrScenario.areSteps && !stepsOrScenario.isScenario || stepsOrScenario.paths.length === 0) {
+            return;
+        }
+        
+        const $steps = $('#steps');
+        if (stepsOrScenario.isScenario) {
+            $steps.empty();
+        }
 
-        alert(JSON.stringify(files));
+        stepsOrScenario.paths.forEach((path) => this.addOption($steps, path.queryFullPath, path.fileName));
     }
 
     async fillSelects() {
