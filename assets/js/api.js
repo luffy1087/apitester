@@ -12,6 +12,10 @@ class Api {
     addStepOrScenario() {
         return ajax.get('addStepOrScenario');
     }
+
+    savePipeline(steps) {
+        return ajax.post('addStepOrScenario', { steps });
+    }
 }
 
 export default new Api();

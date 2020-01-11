@@ -17,13 +17,13 @@ class FormControls {
         this.fillSelects()
     }
     
-    addOption(el, value, text) {
+    addOptions(el, value, text) {
         el.appendChild(this.createSelectChild('option', value, text));
     }
 
     addOptionGroup(el, tree) {
         if (typeof tree.files !== 'undefined') {
-            tree.files.forEach((file) => this.addOption(el, file.queryPath, file.name));
+            tree.files.forEach((file) => this.addOptions(el, file.queryPath, file.name));
         }
 
         if (typeof tree.dirs !== 'undefined') {
@@ -65,7 +65,7 @@ class FormControls {
         $steps.empty();
         options[selectedIndex] = nextStep;
         options[nextIndex] = currentStep;
-        options.forEach(opt => this.addOption($steps, opt.value, opt.text));
+        options.forEach(opt => this.addOptions($steps, opt.value, opt.text));
         steps.selectedIndex = nextIndex;
     }
 
@@ -92,7 +92,7 @@ class FormControls {
             $steps.empty();
         }
 
-        stepsOrScenario.paths.forEach((path) => this.addOption($steps, path.queryFullPath, path.fileName));
+        stepsOrScenario.paths.forEach((path) => this.addOptions($steps, path.queryFullPath, path.fileName));
     }
 
     async fillSelects() {
@@ -100,7 +100,7 @@ class FormControls {
         const steps = await this.api.getSteps();
 
         this.addOptionGroup($('#environment'), envs);
-        steps.forEach((step) => this.addOption($('#steps'), step));
+        steps.forEach((step) => this.addOptions($('#steps'), step));
     }
 
     async showEnvironmentDetails() {
