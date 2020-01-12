@@ -1,6 +1,6 @@
 class Ajax{
     get(url, data = {}) {
-        const query = this.query(data.params);
+        const query = this.query(data.query);
         const requestUrl = query === '' ? this.getUrl(url) : `${this.getUrl(url)}?${query}`;
         
         return this.createRequest(requestUrl, 'get', data);
@@ -21,14 +21,13 @@ class Ajax{
         const res = await fetch(req);
 
         return data.html ? await res.text() : await res.json();
-
     }
 
-    query(params = {}) {
+    query(keyValue = {}) {
         const query = [];
         
-        for (let key in params) {
-            query.push(`${key}=${params[key]}`);
+        for (let key in keyValue) {
+            query.push(`${key}=${keyValue[key]}`);
         }
 
         return query.join('&');

@@ -9,12 +9,14 @@ class FormControls {
         this.ajax = ajax;
         this.api = api;
         this.popup = new popup();
+        $('#save').addEventListener('click', this.savePipeline.bind(this));
         $('#add').addEventListener('click', this.addStepOrScenario.bind(this));
         $('#up').addEventListener('click', this.swapSteps.bind(this, -1));
         $('#down').addEventListener('click', this.swapSteps.bind(this, 1));
         $('#remove').addEventListener('click', this.removeStep.bind(this));
         $('#showDetails').addEventListener('click', this.showEnvironmentDetails.bind(this));
-        this.fillSelects()
+        $('#environment').addEventListener('change', this.fillSteps.bind(this));
+        this.fillSelects();
     }
     
     addOptions(el, value, text) {
@@ -23,7 +25,9 @@ class FormControls {
 
     addOptionGroup(el, tree) {
         if (typeof tree.files !== 'undefined') {
-            tree.files.forEach((file) => this.addOptions(el, file.queryPath, file.name));
+            tree.files.forEach((file) => {
+                this.addOptions(el, { dirName: tree.dirName, queryPath: file.queryPath }, file.name);
+            });
         }
 
         if (typeof tree.dirs !== 'undefined') {
@@ -36,6 +40,7 @@ class FormControls {
     }
 
     createSelectChild(tagName = 'option', value, text = null) {
+        value = typeof value === 'object' ? JSON.stringify(value) : value;
         const $el = $(tagName);
         const el = $el.get(0);
         
@@ -95,12 +100,37 @@ class FormControls {
         stepsOrScenario.paths.forEach((path) => this.addOptions($steps, path.queryFullPath, path.fileName));
     }
 
-    async fillSelects() {
-        const envs = await this.api.getEnvironments();
-        const steps = await this.api.getSteps();
+    async savePipeline() {
+        const steps = $('#steps').get(0);
+        if (steps.options.length === 0) {
+            alert('Pipeline is empty');
+        }
 
-        this.addOptionGroup($('#environment'), envs);
-        steps.forEach((step) => this.addOptions($('#steps'), step));
+        this.api.savePipeline()
+    }
+
+    async fillSelects() {
+       await this.fillEnvs();
+       await this.fillSteps();
+    }
+
+    async fillEnvs() {
+        const envs = await this.api.getEnvironments();
+        const $env = $('#environment');
+
+        this.addOptionGroup($env, envs);
+    }
+
+    async fillSteps() {
+        const $env = $('#environment');
+        if (!$env.hasJsonValue) {
+            return void alert('Cannot retrieve value for environment');
+        }
+
+        const $steps = $('#steps').empty();
+        const steps = await this.api.getSteps($env.jsonValue.dirName);
+
+        steps.forEach((step) => this.addOptions($steps, step.queryFullPath, step.fileName));
     }
 
     async showEnvironmentDetails() {

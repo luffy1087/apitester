@@ -29,7 +29,7 @@ class DOM {
     }
 
     static isTagName(data) {
-        return typeof data && /^[a-z]+$/.test(data);
+        return typeof data === 'string' && /^[a-z]+$/.test(data);
     }
 
     static isFromDOM(data) {
@@ -152,6 +152,17 @@ class DOM {
         this._els = els;
     }
 
+    get hasJsonValue() {
+        try {
+            return JSON.parse(this._els[0].value);
+        } catch(e) {
+            return false;
+        }
+    }
+
+    get jsonValue() {
+        return JSON.parse(this._els[0].value);
+    }
 }
 
 const $ = DOM.$;

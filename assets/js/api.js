@@ -1,8 +1,8 @@
 import ajax from './ajax';
 
 class Api {
-    getSteps() {
-        return ajax.get('getSteps');
+    getSteps(dirToRead) {
+        return ajax.get('getSteps', { query: { dirToRead} });
     }
 
     getEnvironments() {
@@ -14,7 +14,7 @@ class Api {
     }
 
     savePipeline(steps) {
-        return ajax.post('addStepOrScenario', { steps });
+        return ajax.post('savePipeline', { steps });
     }
 }
 
