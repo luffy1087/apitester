@@ -97,7 +97,7 @@ class FormControls {
             $steps.empty();
         }
 
-        stepsOrScenario.paths.forEach((path) => this.addOptions($steps, path.queryFullPath, path.fileName));
+        stepsOrScenario.paths.forEach((path) => this.addOptions($steps, path.queryPath, path.fileName));
     }
 
     async savePipeline() {
@@ -121,7 +121,7 @@ class FormControls {
         this.addOptionGroup($env, envs);
     }
 
-    async fillSteps() {
+    async fillSteps(evt) {
         const $env = $('#environment');
         if (!$env.hasJsonValue) {
             return void alert('Cannot retrieve value for environment');
@@ -130,12 +130,12 @@ class FormControls {
         const $steps = $('#steps').empty();
         const steps = await this.api.getSteps($env.jsonValue.dirName);
 
-        steps.forEach((step) => this.addOptions($steps, step.queryFullPath, step.fileName));
+        steps.forEach((step) => this.addOptions($steps, step.queryPath, step.fileName));
     }
 
     async showEnvironmentDetails() {
-        const environment = $('#environment').get(0).value;
-        const htmlResponse = await this.ajax.get('getEnvironmentDetails', { params: { environment }, html: true });
+        const environment = $('#environment').jsonValue.queryPath;
+        const htmlResponse = await this.ajax.get('getEnvironmentDetails', { query: { environment }, html: true });
 
         this.popup.open({ content: htmlResponse, closeButtonCnt: 'X' });
     }
