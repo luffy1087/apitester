@@ -106,7 +106,19 @@ class FormControls {
             alert('Pipeline is empty');
         }
 
-        this.api.savePipeline()
+        const fileName = prompt("Type the file name");
+        if (!fileName) {
+            return;
+        }
+
+        const stepsObj = Array.prototype.slice.call(steps.options).reduce((prev, cur) => {
+            prev.steps.push(cur.value);
+
+            return prev;
+        }, { steps: [], fileName });
+
+
+        await this.api.savePipeline(stepsObj);
     }
 
     async fillSelects() {
