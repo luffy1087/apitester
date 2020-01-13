@@ -121,12 +121,19 @@ class FormControls {
         this.addOptionGroup($env, envs);
     }
 
-    async fillSteps(evt) {
+    async fillSteps() {
         const $env = $('#environment');
         if (!$env.hasJsonValue) {
             return void alert('Cannot retrieve value for environment');
         }
 
+        const env = $env.get(0);
+        const selectedOption = env.selectedOptions[0];
+        if (selectedOption.parentNode.tagName === 'OPTGROUP' && selectedOption.parentNode.label === env.dataset.value) {
+            return;
+        }
+
+        env.dataset.value = selectedOption.parentNode.label;
         const $steps = $('#steps').empty();
         const steps = await this.api.getSteps($env.jsonValue.dirName);
 
