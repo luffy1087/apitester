@@ -6,4 +6,7 @@ import './css/popup.css';
 import FormControls from './js/formControls';
 
 //Start program
-const formControls = new FormControls();
+document.addEventListener('DOMContentLoaded', (event) => {
+    window.prompt = window.require('electron-prompt');
+    const formControls = new FormControls();
+});

@@ -13,8 +13,8 @@ class Api {
         return ajax.get('addStepOrScenario');
     }
 
-    savePipeline(steps) {
-        return ajax.post('savePipeline', { steps });
+    savePipeline(body) {
+        return ajax.post('savePipeline', { body });
     }
 }
 

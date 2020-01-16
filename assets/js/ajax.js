@@ -1,23 +1,21 @@
 class Ajax{
-    get(url, data = {}) {
-        const query = this.query(data.query);
-        const requestUrl = query === '' ? this.getUrl(url) : `${this.getUrl(url)}?${query}`;
-        
-        return this.createRequest(requestUrl, 'get', data);
+    get(url, data = {}) {        
+        return this.createRequest(url, 'GET', data);
     }
 
     post(url, data) {
-        return this.createRequest(url, 'post', data);
+        return this.createRequest(url, 'POST', data);
     }
 
     async createRequest(url, method, data = {}) {
-        const params = data.params || {};
-        const body = method === 'post' ? JSON.stringify(params) : undefined;
+        const query = this.query(data.query);
+        const requestUrl = query === '' ? this.getUrl(url) : `${this.getUrl(url)}?${query}`;
+        const body = method === 'POST' ? JSON.stringify(data.body) : undefined;
         const headers = new Headers(data.headers);
         
         headers.set('Content-Type', data.html ? 'text/html' : 'application/json');
 
-        const req = new Request(url, { method, body, headers });
+        const req = new Request(requestUrl, { method, body, headers });
         const res = await fetch(req);
 
         return data.html ? await res.text() : await res.json();

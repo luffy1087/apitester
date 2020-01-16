@@ -106,7 +106,7 @@ class FormControls {
             alert('Pipeline is empty');
         }
 
-        const fileName = prompt("Type the file name");
+        const fileName = await prompt({ title:"Type the file name" });
         if (!fileName) {
             return;
         }
@@ -118,7 +118,11 @@ class FormControls {
         }, { steps: [], fileName });
 
 
-        await this.api.savePipeline(stepsObj);
+        const data = await this.api.savePipeline(stepsObj);
+
+        if (data.response !== 'ok') {
+            alert(data.response);
+        }
     }
 
     async fillSelects() {
