@@ -1,12 +1,17 @@
 {
     "Name": "INT01",
+    "Auth": [
+        { "Key": "Key", "Value": "Value", "Type": "Header" },
+        { "Key": "Key", "Value": "Value", "Type": "Header" }
+    ],
     "Headers": [
-        { "CustomHeaderKey": "Value" }
+        { "Key": "HeaderKey", "Value": "HeaderValue" }
     ],
     "Endpoints": [
-        {
-            "CoreMedia": "Url/{IpAddress}/Get",
-            "Placeholders": [ "{IpAddress}" ]
-        }
+        { "Key": "SetColor", "Value": "Url/${PhotoId}/SetColor" },
+        { "Key": "Ibm", "Value": "Url/$${DynamicHeight}/SetHeight" }
+    ],
+    "Placeholders": [
+        { "Key": "PhotoId", "Value": "7777777" }
     ]
  }
