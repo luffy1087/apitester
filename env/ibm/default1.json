@@ -1,8 +1,8 @@
 {
     "Name": "INT01",
     "Auth": [
-        { "Key": "Key", "Value": "Value", "Type": "Header" },
-        { "Key": "Key", "Value": "Value", "Type": "Header" }
+        { "Key": "IbmKey", "Value": "IbmValue", "Type": "Header" },
+        { "Key": "IbamKey2", "Value": "IbmValue2", "Type": "Header" }
     ],
     "Headers": [
         { "Key": "HeaderKey", "Value": "HeaderValue" }

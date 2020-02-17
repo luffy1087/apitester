@@ -6,23 +6,38 @@
     </thead>
     <tbody>
         <tr><td colspan="2">&nbsp;</td></tr>
-        <tr class="title">
-            <td colspan="2">Headers</td>
-        </tr>
-        {{#each Headers}}
-        <tr class="hoverable">
-            <td>{{this.Key}}</td>
-            <td>{{this.Value}}</td>
-        </tr>
-        {{/each}}
-        <tr class="title">
-            <td colspan="2">Endpoints</td>
-        </tr>
-        {{#each Endpoints}}
-        <tr class="hoverable">
-            <td>{{this.Key}}</td>
-            <td>{{this.Value}}</td>
-        </tr>
-        {{/each}}
+        {{#if Auth}}
+            <tr class="title">
+                <td colspan="2">Auth</td>
+            </tr>
+            {{#each Auth}}
+                <tr class="hoverable">
+                    <td>{{this.Key}}</td>
+                    <td>{{this.Value}}</td>
+                </tr>
+            {{/each}}
+        {{/if}}
+        {{#if Headers}}
+            <tr class="title">
+                <td colspan="2">Headers</td>
+            </tr>
+            {{#each Headers}}
+                <tr class="hoverable">
+                    <td>{{this.Key}}</td>
+                    <td>{{this.Value}}</td>
+                </tr>
+            {{/each}}
+        {{/if}}
+        {{#if Endpoints}}
+            <tr class="title">
+                <td colspan="2">Endpoints</td>
+            </tr>
+            {{#each Endpoints}}
+                <tr class="hoverable">
+                    <td>{{this.Key}}</td>
+                    <td>{{this.Value}}</td>
+                </tr>
+            {{/each}}
+        {{/if}}
     </tbody>
 </table>
