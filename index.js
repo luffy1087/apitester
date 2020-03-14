@@ -1,5 +1,5 @@
 import './lib/webSocket';
-import { server } from './lib/server';
+import { server } from './lib/http-server';
 import { createWindow, app } from './lib/windows';
 
 
