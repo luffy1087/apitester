@@ -1,17 +1,17 @@
 import './lib/webSocket';
 import { server } from './lib/http-server';
-import { createWindow, app } from './lib/windows';
+import windows from './lib/windows';
 
 
 (function(Program) {
     new Program();
 })(class Program {
     constructor() {
-        app.on('ready', this.startProgram);
+        windows.app.on('ready', this.startProgram);
     }
 
     startProgram() {
-        const window = createWindow('index', './dist/index.html');
+        const window = windows.createWindow('index', './dist/index.html');
         window.on('closed', () => server.close());
     }
 });
