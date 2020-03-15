@@ -1,4 +1,3 @@
-import './lib/webSocket';
 import { server } from './lib/http-server';
 import windows from './lib/windows';
 
