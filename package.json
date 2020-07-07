@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/luffy1087/apitester#readme",
   "dependencies": {
-    "electron": "^6.0.12",
+    "electron": "^9.1.0",
     "electron-compile": "^6.4.4",
     "electron-prebuilt-compile": "^4.0.0",
     "electron-prompt": "^1.5.0",
